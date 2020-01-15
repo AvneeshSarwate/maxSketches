@@ -3,7 +3,9 @@
     <param name="resolution" type="vec2" default="640., 480." />
     <param name="sliderVals" type="float[]" default="0.0" />
     <param name="time" type="float" default="0.0" />
+	<param name="vtime" type="float" default="0.0" />
     <param name="backbuffer" type="int" default="0" />
+	<param name="image" type="int" default="1" />
     <param name="modelViewProjectionMatrix" type="mat4" state="MODELVIEW_PROJECTION_MATRIX" />
     <param name="textureMatrix0" type="mat4" state="TEXTURE0_MATRIX" />
     <param name="position" type="vec3" state="POSITION" />
@@ -12,7 +14,9 @@
         <bind param="resolution" program="fp" />
         <bind param="sliderVals" program="fp" />
         <bind param="time" program="fp" />
+		<bind param="vtime" program="fp" />
         <bind param="backbuffer" program="fp" />
+        <bind param="image" program="fp" />
         <bind param="modelViewProjectionMatrix" program="vp" />
         <bind param="textureMatrix0" program="vp" />
         <bind param="position" program="vp" />
@@ -46,6 +50,7 @@
             layout (location = 0) out vec4 outColor;
             
             uniform sampler2DRect backbuffer;
+			uniform sampler2DRect image;
             uniform vec2 resolution;
             
             vec2 uvN(){ return jit_in.texcoord/resolution; }
@@ -211,6 +216,7 @@
             
             uniform float sliderVals[10];
             uniform float time;
+			uniform float vtime;
 
             // quantize and input number [0, 1] to quantLevels levels
             float quant(float num, float quantLevels){
@@ -259,6 +265,16 @@
                 return (c1+c2+c3+c4+c5+c6+c7+c8)/8.;
             }
 
+			vec3 cosN(vec3 n){
+    			return (cos(n)+1.)/2.;
+			}
+			float magnify(float n, float x){
+    			return n > 0.5 ? pow(n, 1.-x) : pow(n, 1.+x);
+			}
+			vec3 sat(vec3 col, float x){
+    			return vec3(magnify(col.x, x), magnify(col.y, x), magnify(col.z, x));
+			}
+
             //slider vals 8/9 control hi/lo intensities - 6/7 open to be mapped
             vec4 ex1(){
                 vec2 stN = uvN(); //function for getting the [0, 1] scaled corrdinate of each pixel
@@ -267,8 +283,8 @@
                 
                 vec3 warpN = coordWarp(stN, time);
                 bool col = false;
-                float lowAudio = sinN(time*PI*4.)*0.3*sliderVals[6]; //make this bass?
-                float swing = lowAudio;
+                float lowAudio = sinN(time*PI*4.)*0.3; //*sliderVals[6]; //make this bass?
+                float swing = lowAudio*0.;
                 for(int i = 0; i < 6; i++){
                     float iSwing = float(i)*pow(sinN(t2/4.), 0.3)*(1.+sliderVals[3]*2.);
                     vec2 start = rotate(vec2(0.3)-sliderVals[3], vec2(0.5), iSwing);
@@ -288,8 +304,8 @@
                 float highSwing = highAudio;
                 vec4 bbN = texture(backbuffer, (stN+hashN.xy*0.1) * resolution);
                 vec4 bbNoise = texture(backbuffer, stN * resolution);
-                vec2 fdbkN = rotate(stN, vec2(0.5), PI/8.*(1.-sliderVals[4]))+hashN.xy*0.1*sliderVals[0];
-                vec4 bbWarp = texture(backbuffer, (mix(fdbkN, vec2(0.5), -highSwing)) * resolution);
+                vec2 fdbkN = rotate(stN, vec2(0.5), PI/8.*(1.-sliderVals[4]))+hashN.xy*0.1*pow(sliderVals[0], 2.);
+                vec4 bbWarp = texture(backbuffer, (mix(fdbkN, vec2(0.5), (sliderVals[6] - 0.5)*0.25)) * resolution);
                 vec2 trailPoint = vec2(0.5); //mix(vec2(0.5), coordWarp(vec2(0.5), time).xy, 2.5);
                 vec2 warpMix = mix(mix(stN, warpN.xy, 0.01), trailPoint, 0.01 * sin(time/3.));
                 vec4 bb = avgColorBB(warpMix, 0.005, 0.01);
@@ -303,14 +319,24 @@
                     feedback = 1.;
                 }
                 
+				feedback = max(feedback, 0.1);
+				
                 vec3 cc = (feedback > 0.5 ? white : black) - feedback;
                 cc = vec3(sinN(feedback*(5.+sliderVals[1]*45.)));
+
+				float fb = feedback * sliderVals[1] * 10.;
+    			vec3 imgc = mix(black, texture(image, (warpMix+vec2(sin(fb), cos(fb))*0.0)*resolution).rgb, feedback);
+				imgc = 1.-cosN(imgc*(5.+20.*PI*pow(sliderVals[1], 3.))+vtime*30.);
+    			imgc = imgc == black ? black : imgc * feedback;
                 
                 cc = mix(cc, bbWarp.rgb, 0.5);
-                
+                imgc = mix(imgc, bbWarp.rgb, 0.5);
+
                 //the fragment color variable name (slightly different from shader toy)
                 float c = cc.x > 0.5 ? pow(cc.x, 1.-sliderVals[2]) : pow(cc.x, 1.+sliderVals[2]);
-                return time < 1. ? vec4(0.) : vec4(vec3(c), feedback);
+				cc = vec3(c);
+				imgc = sat(imgc, sliderVals[2]);
+                return time < 1. ? vec4(0.) : vec4(mix(cc, imgc, sliderVals[9]), feedback);
             }
 
             void main(void) {

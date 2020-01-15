@@ -48,7 +48,6 @@ vec4 avgColorBB(vec2 nn, float dist, float d){
 vec3 cosN(vec3 n){
     return (cos(n)+1.)/2.;
 }
-
 float magnify(float n, float x){
     return n > 0.5 ? pow(n, 1.-x) : pow(n, 1.+x);
 }

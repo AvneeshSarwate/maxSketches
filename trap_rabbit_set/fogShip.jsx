@@ -4,6 +4,7 @@
     <param name="sliderVals" type="float[]" default="0.0" />
     <param name="time" type="float" default="0.0" />
     <param name="backbuffer" type="int" default="0" />
+    <param name="image" type="int" default="1" />
     <param name="modelViewProjectionMatrix" type="mat4" state="MODELVIEW_PROJECTION_MATRIX" />
     <param name="textureMatrix0" type="mat4" state="TEXTURE0_MATRIX" />
     <param name="position" type="vec3" state="POSITION" />
@@ -13,6 +14,7 @@
         <bind param="sliderVals" program="fp" />
         <bind param="time" program="fp" />
         <bind param="backbuffer" program="fp" />
+        <bind param="image" program="fp" />
         <bind param="modelViewProjectionMatrix" program="vp" />
         <bind param="textureMatrix0" program="vp" />
         <bind param="position" program="vp" />
@@ -46,6 +48,7 @@
             layout (location = 0) out vec4 outColor;
             
             uniform sampler2DRect backbuffer;
+            uniform sampler2DRect image;
             uniform vec2 resolution;
             
             vec2 uvN(){ return jit_in.texcoord/resolution; }
