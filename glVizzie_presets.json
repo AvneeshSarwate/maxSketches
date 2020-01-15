@@ -1,0 +1,39 @@
+{
+	"pattrstorage" : 	{
+		"name" : "u933006174",
+		"slots" : 		{
+			"1" : 			{
+				"id" : 1,
+				"data" : 				{
+					"brcosr::contrast-val" : [ 0.0 ],
+					"brcosr::bright-mult" : [ 0 ],
+					"brcosr::cont-mult" : [ 1 ],
+					"brcosr::sat-mult" : [ 1 ],
+					"brcosr::saturation-val" : [ 0.746555 ],
+					"brcosr::brighness-val" : [ 0.29086 ],
+					"delayr::secdelay" : [ 1.0 ],
+					"delayr::framefb" : [ 0.95 ],
+					"delayr::xfade-val" : [ 1.0 ],
+					"oper8r::operator" : [ 12.0 ],
+					"brcosr[1]::contrast-val" : [ 0.0 ],
+					"brcosr[1]::bright-mult" : [ 0 ],
+					"brcosr[1]::cont-mult" : [ 1 ],
+					"brcosr[1]::sat-mult" : [ 1 ],
+					"brcosr[1]::saturation-val" : [ 0.746555 ],
+					"brcosr[1]::brighness-val" : [ 0.29086 ],
+					"rotatr::angle" : [ 11.65904515807045 ],
+					"rotatr::mode" : [ 3.0 ],
+					"rotatr::x_offset" : [ 3.696504385867701 ],
+					"rotatr::y_offset" : [ 0.0 ],
+					"sketchr::cont" : [ 240.0 ],
+					"sketchr::invert" : [ 0.0 ],
+					"sketchr::thresh[1]" : [ 0.212598425196851 ]
+				}
+
+			}
+
+		}
+
+	}
+
+}

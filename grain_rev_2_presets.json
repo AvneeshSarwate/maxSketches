@@ -1,0 +1,85 @@
+{
+	"pattrstorage" : 	{
+		"name" : "u500000550",
+		"slots" : 		{
+			"1" : 			{
+				"id" : 1,
+				"data" : 				{
+					"live.gain~" : [ -16.020997375328079 ],
+					"offset-max" : [ 114459.0 ],
+					"offset-min" : [ 113355.0 ],
+					"bp.Gigaverb::Damp" : [ 0.7 ],
+					"bp.Gigaverb::Dry" : [ 1.0 ],
+					"bp.Gigaverb::Early" : [ 0.25 ],
+					"bp.Gigaverb::Regen" : [ 0.5 ],
+					"bp.Gigaverb::Size" : [ 74.999999999999972 ],
+					"bp.Gigaverb::Spread" : [ 23.0 ],
+					"bp.Gigaverb::Tail" : [ 0.25 ],
+					"bp.Gigaverb::Time" : [ 11.0 ],
+					"bp.Gigaverb::bypass" : [ 0.0 ]
+				}
+
+			}
+,
+			"2" : 			{
+				"id" : 2,
+				"data" : 				{
+					"live.gain~" : [ -16.020997375328079 ],
+					"offset-max" : [ 164512.0 ],
+					"offset-min" : [ 155312.0 ],
+					"bp.Gigaverb::Damp" : [ 0.7 ],
+					"bp.Gigaverb::Dry" : [ 1.0 ],
+					"bp.Gigaverb::Early" : [ 0.25 ],
+					"bp.Gigaverb::Regen" : [ 0.5 ],
+					"bp.Gigaverb::Size" : [ 74.999999999999972 ],
+					"bp.Gigaverb::Spread" : [ 26.149606299212603 ],
+					"bp.Gigaverb::Tail" : [ 0.501968503937008 ],
+					"bp.Gigaverb::Time" : [ 52.954847908103829 ],
+					"bp.Gigaverb::bypass" : [ 0.0 ]
+				}
+
+			}
+,
+			"3" : 			{
+				"id" : 3,
+				"data" : 				{
+					"live.gain~" : [ -16.020997375328079 ],
+					"offset-max" : [ 64940.0 ],
+					"offset-min" : [ 64644.0 ],
+					"bp.Gigaverb::Damp" : [ 0.259842519685039 ],
+					"bp.Gigaverb::Dry" : [ 0.0 ],
+					"bp.Gigaverb::Early" : [ 0.716535433070866 ],
+					"bp.Gigaverb::Regen" : [ 0.905511811023622 ],
+					"bp.Gigaverb::Size" : [ 0.11 ],
+					"bp.Gigaverb::Spread" : [ 65.51968503937006 ],
+					"bp.Gigaverb::Tail" : [ 0.653543307086614 ],
+					"bp.Gigaverb::Time" : [ 426.718408773638828 ],
+					"bp.Gigaverb::bypass" : [ 0.0 ]
+				}
+
+			}
+,
+			"4" : 			{
+				"id" : 4,
+				"data" : 				{
+					"live.gain~" : [ -16.020997375328079 ],
+					"offset-max" : [ 64940.0 ],
+					"offset-min" : [ 64644.0 ],
+					"bp.Gigaverb::Damp" : [ 0.259842519685039 ],
+					"bp.Gigaverb::Dry" : [ 0.0 ],
+					"bp.Gigaverb::Early" : [ 0.716535433070866 ],
+					"bp.Gigaverb::Regen" : [ 0.905511811023622 ],
+					"bp.Gigaverb::Size" : [ 0.11 ],
+					"bp.Gigaverb::Spread" : [ 65.51968503937006 ],
+					"bp.Gigaverb::Tail" : [ 0.653543307086614 ],
+					"bp.Gigaverb::Time" : [ 426.718408773638828 ],
+					"bp.Gigaverb::bypass" : [ 0.0 ]
+				}
+
+			}
+
+		}
+
+	}
+
+}
