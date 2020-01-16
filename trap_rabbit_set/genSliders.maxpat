@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 946.0, 149.0, 855.0, 919.0 ],
+		"rect" : [ 1244.0, 159.0, 855.0, 919.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -68,7 +68,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 219.0, 306.0, 50.0, 22.0 ],
-					"text" : "0.035"
+					"text" : "0.0094"
 				}
 
 			}
@@ -354,8 +354,8 @@
 					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "jit_gl_texture", "" ],
-					"patching_rect" : [ 365.0, 423.0, 204.0, 22.0 ],
-					"text" : "jit.gl.slab @file fogShip.jsx @adapt 0"
+					"patching_rect" : [ 365.0, 423.0, 242.0, 22.0 ],
+					"text" : "jit.gl.slab @file shadowReflect.jsx @adapt 0"
 				}
 
 			}
@@ -416,7 +416,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 28.5, 220.0, 182.0, 49.0 ],
-					"text" : "0.788235 0.235294 1. 0.105882 0.435294 0.447059 0.317647 0. 1. 1."
+					"text" : "0.247059 0.270588 0.517647 0.505882 0.505882 0.8 0.576471 0.129412 0.552941 1."
 				}
 
 			}

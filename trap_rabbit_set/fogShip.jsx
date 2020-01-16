@@ -378,7 +378,7 @@
                 float t2 = time + 1000.;
 
                 vec2 stN = uvN();
-                float numCells = 0.1 + pow((1.-sliderVals[0])*0.6 + 0.4, 5.)*100.;
+                float numCells = 0.1 + pow((1.-sliderVals[2])*0.6 + 0.4, 5.)*100.;
                 vec2 rotN = rotate(stN, vec2(0.5), PI2*100. *sinN(time+stN.x*PI));
                 vec2 rowColN = rowColWave(rotN, 1000., time/4., 0.3);
                 vec2 rowColN2 = rowColWave(stN, 1000., time/4., 0.03);
@@ -389,13 +389,13 @@
                 
                 vec3 cc;
                 float decay = 0.999;
-                float decay2 = sliderVals[4];
+                float decay2 = sliderVals[6];
                 float feedback;
-                vec4 bb = texture(backbuffer, mix(mix(hashN, warpCoord, 0.1*sliderVals[1]), vec2(0.5), -sliderVals[5]*0.06 + 0.03)*resolution) ;
+                vec4 bb = texture(backbuffer, mix(mix(hashN, warpCoord, 0.1*sliderVals[3]), vec2(0.5), -sliderVals[7]*0.06 + 0.03)*resolution) ;
                 float lastFeedback = bb.a;
 
                 // vec2 multBall = multiBallCondition(stN, t2/2.);
-                bool condition = distance(warpCoord, stN) > 0.2 * sliderVals[2] + 0.01; 
+                bool condition = distance(warpCoord, stN) > 0.2 * sliderVals[4] + 0.01; 
 
                 //   implement the trailing effectm using the alpha channel to track the state of decay 
                 if(condition){
@@ -414,7 +414,7 @@
                 vec3 c = vec3(sinN(feedback*10.), sinN(feedback*14.), cosN(feedback*5.));
                 
                 vec3 col = mix(vec3(feedback), !condition ? cam : bb.rgb, sliderVals[9]);
-                col = mix(bb.rgb, col, 0.2 * (1.-sliderVals[3])+0.01);
+                col = mix(bb.rgb, col, 0.2 * (1.-sliderVals[5])+0.01);
                 
                 return vec4(col, feedback);
             }

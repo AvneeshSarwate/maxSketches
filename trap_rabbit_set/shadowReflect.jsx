@@ -214,7 +214,7 @@
                                             dot(p2,x2), dot(p3,x3) ) );
             }
             
-            uniform float sliderVals[10];
+            uniform float sliderVals[30];
             uniform float time;
 			uniform float vtime;
 
@@ -282,14 +282,14 @@
                 
                 vec3 warpN = coordWarp(stN, time);
                 bool col = false;
-                float lowAudio = sinN(time*PI*4.)*0.3; //*slidervals[5]; //make this bass?
+                float lowAudio = sinN(time*PI*4.)*0.3; //*sliderVals[7]; //make this bass?
                 float swing = lowAudio*0.;
                 for(int i = 0; i < 6; i++){
-                    float iSwing = float(i)*pow(sinN(t2/4.), 0.3)*(1.+sliderVals[3]*2.);
-                    vec2 start = rotate(vec2(0.3)-sliderVals[3], vec2(0.5), iSwing);
+                    float iSwing = float(i)*pow(sinN(t2/4.), 0.3)*(1.+sliderVals[5]*2.);
+                    vec2 start = rotate(vec2(0.3)-sliderVals[5], vec2(0.5), iSwing);
                     vec2 center = mix(start, vec2(0.7), sinN(t2+iSwing+swing));
                     vec2 warpCent = coordWarp(center, t2/10.).xy;
-                    col =(distance(stN, center) < 0.03 + sliderVals[3]*0.1) || col;
+                    col =(distance(stN, center) < 0.03 + sliderVals[5]*0.1) || col;
                 }
                 //col /= 6.;
                 // col.xy = warpN.xy;
@@ -301,8 +301,8 @@
                 float feedback; 
                 vec4 bbN = texture(backbuffer, (stN+hashN.xy*0.1) * resolution);
                 vec4 bbNoise = texture(backbuffer, stN * resolution);
-                vec2 fdbkN = rotate(stN, vec2(0.5), PI/8.*(1.-sliderVals[4]))+hashN.xy*0.1*pow(sliderVals[0], 2.);
-                vec4 bbWarp = texture(backbuffer, (mix(fdbkN, vec2(0.5), (slidervals[5] - 0.5)*0.25)) * resolution);
+                vec2 fdbkN = rotate(stN, vec2(0.5), PI/8.*(1.-sliderVals[6]))+hashN.xy*0.1*pow(sliderVals[2], 2.);
+                vec4 bbWarp = texture(backbuffer, (mix(fdbkN, vec2(0.5), (sliderVals[7] - 0.5)*0.25)) * resolution);
                 vec2 trailPoint = vec2(0.5); //mix(vec2(0.5), coordWarp(vec2(0.5), time).xy, 2.5);
                 vec2 warpMix = mix(mix(stN, warpN.xy, 0.01), trailPoint, 0.01 * sin(time/3.));
                 vec4 bb = avgColorBB(warpMix, 0.005, 0.01);
@@ -319,20 +319,20 @@
 				feedback = max(feedback, 0.1);
 				
                 vec3 cc = (feedback > 0.5 ? white : black) - feedback;
-                cc = vec3(sinN(feedback*(5.+sliderVals[1]*45.)));
+                cc = vec3(sinN(feedback*(5.+sliderVals[3]*45.)));
 
-				float fb = feedback * sliderVals[1] * 10.;
+				float fb = feedback * sliderVals[3] * 10.;
     			vec3 imgc = mix(black, texture(image, (warpMix+vec2(sin(fb), cos(fb))*0.0)*resolution).rgb, feedback);
-				imgc = 1.-cosN(imgc*(5.+20.*PI*pow(sliderVals[1], 3.))+vtime*30.);
+				imgc = 1.-cosN(imgc*(5.+20.*PI*pow(sliderVals[3], 3.))+vtime*30.);
     			imgc = imgc == black ? black : imgc * feedback;
                 
                 cc = mix(cc, bbWarp.rgb, 0.5);
                 imgc = mix(imgc, bbWarp.rgb, 0.5);
 
                 //the fragment color variable name (slightly different from shader toy)
-                float c = cc.x > 0.5 ? pow(cc.x, 1.-sliderVals[2]) : pow(cc.x, 1.+sliderVals[2]);
+                float c = cc.x > 0.5 ? pow(cc.x, 1.-sliderVals[4]) : pow(cc.x, 1.+sliderVals[4]);
 				cc = vec3(c);
-				imgc = sat(imgc, sliderVals[2]);
+				imgc = sat(imgc, sliderVals[4]);
                 return time < 1. ? vec4(0.) : vec4(mix(cc, imgc, sliderVals[9]), feedback);
             }
 
