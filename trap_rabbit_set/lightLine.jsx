@@ -420,7 +420,7 @@
 
                 vec3 grey = vec3(sinN((1.-feedback)*PI*5.));
 				grey = mix(bb.rgb, grey, sliderVals[3]);
-                vec3 col = condition ? mix(cam, 1.-cosN(cam*PI*5.), sliderVals[3]) : bb.rgb;
+                vec3 col = condition ? mix(cam, 1.-cosN(cam*PI*20+vtime*10*PI), sliderVals[3]) : bb.rgb;
                 
                 col = mix(grey, col, pow(sliderVals[9], 0.2));
 
