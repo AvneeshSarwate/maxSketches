@@ -68,7 +68,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 219.0, 306.0, 50.0, 22.0 ],
-					"text" : "0.024"
+					"text" : "0.035"
 				}
 
 			}
@@ -354,8 +354,8 @@
 					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "jit_gl_texture", "" ],
-					"patching_rect" : [ 365.0, 423.0, 208.0, 22.0 ],
-					"text" : "jit.gl.slab @file lightLine.jsx @adapt 0"
+					"patching_rect" : [ 365.0, 423.0, 204.0, 22.0 ],
+					"text" : "jit.gl.slab @file fogShip.jsx @adapt 0"
 				}
 
 			}
@@ -416,7 +416,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 28.5, 220.0, 182.0, 49.0 ],
-					"text" : "0.541176 0.705882 0.447059 0.588235 0.564706 0.470588 0.364706 0.741176 1. 0."
+					"text" : "0.788235 0.235294 1. 0.105882 0.435294 0.447059 0.317647 0. 1. 1."
 				}
 
 			}

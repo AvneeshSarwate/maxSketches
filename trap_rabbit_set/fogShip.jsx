@@ -384,6 +384,8 @@
                 vec2 rowColN2 = rowColWave(stN, 1000., time/4., 0.03);
                 vec2 hashN = stN + (hash(vec3(stN, t2)).xy + -0.5)/numCells/(10. + sinN(rowColN.x*PI+time/1.5)*100.);
                 vec2 warpCoord = mix(stN, coordWarp(rowColN2, time/5.).xy, .8);
+
+				vec3 cam = texture(image, stN*resolution).rgb;
                 
                 vec3 cc;
                 float decay = 0.999;
@@ -411,7 +413,7 @@
                 
                 vec3 c = vec3(sinN(feedback*10.), sinN(feedback*14.), cosN(feedback*5.));
                 
-                vec3 col = vec3(feedback);
+                vec3 col = mix(vec3(feedback), !condition ? cam : bb.rgb, sliderVals[9]);
                 col = mix(bb.rgb, col, 0.2 * (1.-sliderVals[3])+0.01);
                 
                 return vec4(col, feedback);

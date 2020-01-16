@@ -278,12 +278,11 @@
             //slider vals 8/9 control hi/lo intensities - 6/7 open to be mapped
             vec4 ex1(){
                 vec2 stN = uvN(); //function for getting the [0, 1] scaled corrdinate of each pixel
-                stN = quant(stN, 2000.*pow(1.-sliderVals[5], 4.)+10.);
                 float t2 = time/2.; //time is the uniform for global time
                 
                 vec3 warpN = coordWarp(stN, time);
                 bool col = false;
-                float lowAudio = sinN(time*PI*4.)*0.3; //*sliderVals[6]; //make this bass?
+                float lowAudio = sinN(time*PI*4.)*0.3; //*slidervals[5]; //make this bass?
                 float swing = lowAudio*0.;
                 for(int i = 0; i < 6; i++){
                     float iSwing = float(i)*pow(sinN(t2/4.), 0.3)*(1.+sliderVals[3]*2.);
@@ -300,12 +299,10 @@
                 vec3 hashN = hash(vec3(stN, time))-0.5;
                 
                 float feedback; 
-                float highAudio = pow(sinN(time*PI*4.), 4.)*0.3*sliderVals[7]; //make this treble?
-                float highSwing = highAudio;
                 vec4 bbN = texture(backbuffer, (stN+hashN.xy*0.1) * resolution);
                 vec4 bbNoise = texture(backbuffer, stN * resolution);
                 vec2 fdbkN = rotate(stN, vec2(0.5), PI/8.*(1.-sliderVals[4]))+hashN.xy*0.1*pow(sliderVals[0], 2.);
-                vec4 bbWarp = texture(backbuffer, (mix(fdbkN, vec2(0.5), (sliderVals[6] - 0.5)*0.25)) * resolution);
+                vec4 bbWarp = texture(backbuffer, (mix(fdbkN, vec2(0.5), (slidervals[5] - 0.5)*0.25)) * resolution);
                 vec2 trailPoint = vec2(0.5); //mix(vec2(0.5), coordWarp(vec2(0.5), time).xy, 2.5);
                 vec2 warpMix = mix(mix(stN, warpN.xy, 0.01), trailPoint, 0.01 * sin(time/3.));
                 vec4 bb = avgColorBB(warpMix, 0.005, 0.01);
