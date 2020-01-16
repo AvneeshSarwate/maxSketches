@@ -3,7 +3,9 @@
     <param name="resolution" type="vec2" default="640., 480." />
     <param name="sliderVals" type="float[]" default="0.0" />
     <param name="time" type="float" default="0.0" />
+    <param name="vtime" type="float" default="0.0" />
     <param name="backbuffer" type="int" default="0" />
+    <param name="image" type="int" default="1" />
     <param name="modelViewProjectionMatrix" type="mat4" state="MODELVIEW_PROJECTION_MATRIX" />
     <param name="textureMatrix0" type="mat4" state="TEXTURE0_MATRIX" />
     <param name="position" type="vec3" state="POSITION" />
@@ -12,7 +14,9 @@
         <bind param="resolution" program="fp" />
         <bind param="sliderVals" program="fp" />
         <bind param="time" program="fp" />
+        <bind param="vtime" program="fp" />
         <bind param="backbuffer" program="fp" />
+        <bind param="image" program="fp" />
         <bind param="modelViewProjectionMatrix" program="vp" />
         <bind param="textureMatrix0" program="vp" />
         <bind param="position" program="vp" />
@@ -46,6 +50,7 @@
             layout (location = 0) out vec4 outColor;
             
             uniform sampler2DRect backbuffer;
+            uniform sampler2DRect image;
             uniform vec2 resolution;
             
             vec2 uvN(){ return jit_in.texcoord/resolution; }
@@ -211,6 +216,7 @@
             
             uniform float sliderVals[10];
             uniform float time;
+            uniform float vtime;
 
             // quantize and input number [0, 1] to quantLevels levels
             float quant(float num, float quantLevels){
@@ -342,6 +348,14 @@
                 return vec3(warp, distance(warp, stN));
             }
 
+			vec3 sinN(vec3 n){
+    			return (sin(n)+1.)/2.;
+			}
+
+			vec3 cosN(vec3 n){
+    			return (cos(n)+1.)/2.;
+			}
+
             //sliderv 7 controls kick - might not need a high
             vec4 main2() {
                 float lowAudio = sinN(time)*sliderVals[7];
@@ -366,6 +380,8 @@
                 // texN = vec2(sin(stN.x*numCells), cos(stN.y*numCells))/numCells;
                 vec2 hashN = stN + texN;
 
+				vec4 camA = texture(image, (stN+vec2(sin(time), cos(time))*0.01) * resolution);
+    			vec3 cam = camA.rgb;
 
                 float height = 0.5;
                 float thickness = 0.03;
@@ -379,11 +395,13 @@
                 float decay = 0.999;
                 float decay2 = 0.05 * sliderVals[2];
                 float feedback;
-                vec4 bb = texture(backbuffer, mix(hashN, warpSink.xy, (sliderVals[4]-0.5)*0.2)*resolution);
+                vec4 bb = texture(backbuffer, mix(hashN, warpSink.xy, (sliderVals[4]-0.5)*0.2) * resolution );
                 float lastFeedback = bb.a;
 
                 // vec2 multBall = multiBallCondition(stN, t2/2.);
                 bool condition = ballCond;
+                vec3 brush = cam;
+                vec3 background = black;
 
                 //   implement the trailing effectm using the alpha channel to track the state of decay 
                 if(condition){
@@ -400,12 +418,13 @@
                 }
                 
 
-                float col = sinN((1.-feedback)*PI*5.);
+                vec3 grey = vec3(sinN((1.-feedback)*PI*5.));
+				grey = mix(bb.rgb, grey, sliderVals[3]);
+                vec3 col = condition ? mix(cam, 1.-cosN(cam*PI*5.), sliderVals[3]) : bb.rgb;
                 
-                // col = sigmoid((col-0.5)*5.);
-                col = mix(bb.r, col, sliderVals[3]);
-                vec3 c = vec3(feedback < 0.1 ? 0. : col);
-				vec4 bbN = texture(backbuffer, uvN());
+                col = mix(grey, col, pow(sliderVals[9], 0.2));
+
+                vec3 c = vec3(feedback < 0.1 ? black : col);
                 
                 
                 return vec4(c, feedback);
