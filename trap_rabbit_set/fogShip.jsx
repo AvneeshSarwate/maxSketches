@@ -218,6 +218,8 @@
             
             uniform float sliderVals[10];
             uniform float time;
+			uniform float vtime;
+			uniform int   useBop;
 
             // quantize and input number [0, 1] to quantLevels levels
             float quant(float num, float quantLevels){
@@ -379,15 +381,16 @@
 
 
             vec4 main2 () {
-                float t2 = time + 1000.;
+				float tswap = useBop == 0 ? time : sliderVals[0] * 300. + sliderVals[1] * 5.;
+                float t2 = tswap + 1000.;
 
                 vec2 stN = uvN();
                 float numCells = 0.1 + pow((1.-sliderVals[2])*0.6 + 0.4, 5.)*100.;
-                vec2 rotN = rotate(stN, vec2(0.5), PI2*100. *sinN(time+stN.x*PI));
-                vec2 rowColN = rowColWave(rotN, 1000., time/4., 0.3);
-                vec2 rowColN2 = rowColWave(stN, 1000., time/4., 0.03);
-                vec2 hashN = stN + (hash(vec3(stN, t2)).xy + -0.5)/numCells/(10. + sinN(rowColN.x*PI+time/1.5)*100.);
-                vec2 warpCoord = mix(stN, coordWarp(rowColN2, time/5.).xy, .8);
+                vec2 rotN = rotate(stN, vec2(0.5), PI2*100. *sinN(tswap+stN.x*PI));
+                vec2 rowColN = rowColWave(rotN, 1000., tswap/4., 0.3);
+                vec2 rowColN2 = rowColWave(stN, 1000., tswap/4., 0.03);
+                vec2 hashN = stN + (hash(vec3(stN, t2)).xy + -0.5)/numCells/(10. + sinN(rowColN.x*PI+tswap/1.5)*100.);
+                vec2 warpCoord = mix(stN, coordWarp(rowColN2, tswap/5.).xy, .8);
 
 				vec3 cam = texture(image, (stN+vec2(sin(time), cos(time))*0.01)*resolution).rgb;
                 

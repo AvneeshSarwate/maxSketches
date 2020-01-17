@@ -367,7 +367,7 @@
                 // vec4 mouseN = mouse / vec4(resolution, resolution) / 2.;
                 // mouseN = vec4(mouseN.x, 1.-mouseN.y, mouseN.z, 1.-mouseN.w);
                 vec2 cent = vec2(0.5);
-                float time1 = sliderVals[0] * 60. + timeSwing;
+                float time1 = sliderVals[0] * 300. + timeSwing;
 
                 vec2 stN = uvN();
                 float numCells = 400.;
@@ -391,7 +391,7 @@
                 vec3 warp2 = coordWarp(warp.xy, time1/2., 20.);
                 bool lineCond = abs(warp2.y - height) < thickness;
                 // if(mouseN.z > 0.) cent = mouseN.xy;
-                bool ballCond = distance(warp2.xy, cent) < sinN(t2/2.)*0.3 && distance(warp2.xy, cent) > sinN(t2/2.)*0.2;
+                bool ballCond = distance(warp2.xy, cent) < (0.1+sinN(t2/2.))*0.3 && distance(warp2.xy, cent) > (0.1+sinN(t2/2.))*0.2;
                 
                 vec3 cc;
                 float decay = 0.999;

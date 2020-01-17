@@ -281,7 +281,7 @@
             //slider vals 8/9 control hi/lo intensities - 6/7 open to be mapped
             vec4 ex1(){
                 vec2 stN = uvN(); //function for getting the [0, 1] scaled corrdinate of each pixel
-				float tswap = useBop == 0 ? time : sliderVals[0] * 300. + sliderVals[1] * 20.;
+				float tswap = useBop == 0 ? time : sliderVals[0] * 300. + sliderVals[1] * 5.;
                 float t2 = tswap/2.; //time is the uniform for global time
                 
                 vec3 warpN = coordWarp(stN, tswap);
