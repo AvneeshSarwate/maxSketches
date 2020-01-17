@@ -4,6 +4,7 @@
     <param name="sliderVals" type="float[]" default="0.0" />
     <param name="time" type="float" default="0.0" />
 	<param name="imgMix" type="float" default="0.0" />
+	<param name="warpMix" type="float" default="0.0" />
 	<param name="decayS" type="float" default="0.0" />
 	<param name="useBop" type="int" default="0" />
 	<param name="vtime" type="float" default="0.0" />
@@ -21,6 +22,7 @@
         <bind param="sliderVals" program="fp" />
         <bind param="time" program="fp" />
 		<bind param="imgMix" program="fp" />
+		<bind param="warpMix" program="fp" />
 		<bind param="decayS" program="fp" />
 		<bind param="useBop" program="fp" />
 		<bind param="vtime" program="fp" />
@@ -231,6 +233,7 @@
             uniform float sliderVals[30];
             uniform float time;
 			uniform float imgMix;
+			uniform float warpMix;
 			uniform float decayS;
 			uniform int   useBop;
 			uniform int   postSel;
@@ -297,10 +300,11 @@
             vec4 ex1(){
                 vec2 stN = uvN(); //function for getting the [0, 1] scaled corrdinate of each pixel
 				
+				vec2 warpN = mix(stN, coordWarp(stN, vtime).xy, warpMix*5);
 				vec4 bb = texture(backbuffer, stN*resolution);
 				vec4 syn = texture(synth, stN*resolution);
 				vec4 img = texture(image, stN*resolution);
-				vec4 msk = texture(mask, stN*resolution);
+				vec4 msk = texture(mask, warpN*resolution);
 				
 				float feedback;
 				float lastFeedback = bb.a;
@@ -312,9 +316,11 @@
 					feedback = lastFeedback * decay;
 				}
 				
-				vec3 col = syn.rgb;
- 				if(postSel == 0) col = mix(syn.rgb, img.rgb, imgMix) * (1.-feedback);
-				if(postSel == 1) col = mix(syn.rgb, img.rgb, imgMix) * (feedback);
+				vec3 col = mix(syn.rgb, img.rgb, imgMix);
+ 				if(postSel == 0) col = col * (1.-feedback);
+				if(postSel == 1) col = col * (feedback);
+				if(postSel == 2) col = msk.r == 1. ? 1.-col : col;
+				if(postSel == 3) col = (1.-col) * feedback;
 				
                 return vec4(col, feedback);
             }
