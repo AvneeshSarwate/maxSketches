@@ -3,6 +3,8 @@
     <param name="resolution" type="vec2" default="640., 480." />
     <param name="sliderVals" type="float[]" default="0.0" />
     <param name="time" type="float" default="0.0" />
+    <param name="useBop" type="int" default="0" />
+    <param name="vtime" type="float" default="0.0" />
     <param name="backbuffer" type="int" default="0" />
     <param name="image" type="int" default="1" />
     <param name="modelViewProjectionMatrix" type="mat4" state="MODELVIEW_PROJECTION_MATRIX" />
@@ -13,6 +15,8 @@
         <bind param="resolution" program="fp" />
         <bind param="sliderVals" program="fp" />
         <bind param="time" program="fp" />
+        <bind param="useBop" program="fp" />
+        <bind param="vtime" program="fp" />
         <bind param="backbuffer" program="fp" />
         <bind param="image" program="fp" />
         <bind param="modelViewProjectionMatrix" program="vp" />
@@ -385,7 +389,7 @@
                 vec2 hashN = stN + (hash(vec3(stN, t2)).xy + -0.5)/numCells/(10. + sinN(rowColN.x*PI+time/1.5)*100.);
                 vec2 warpCoord = mix(stN, coordWarp(rowColN2, time/5.).xy, .8);
 
-				vec3 cam = texture(image, stN*resolution).rgb;
+				vec3 cam = texture(image, (stN+vec2(sin(time), cos(time))*0.01)*resolution).rgb;
                 
                 vec3 cc;
                 float decay = 0.999;

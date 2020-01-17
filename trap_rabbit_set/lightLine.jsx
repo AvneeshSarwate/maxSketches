@@ -3,6 +3,7 @@
     <param name="resolution" type="vec2" default="640., 480." />
     <param name="sliderVals" type="float[]" default="0.0" />
     <param name="time" type="float" default="0.0" />
+    <param name="useBop" type="int" default="0" />
     <param name="vtime" type="float" default="0.0" />
     <param name="backbuffer" type="int" default="0" />
     <param name="image" type="int" default="1" />
@@ -14,6 +15,7 @@
         <bind param="resolution" program="fp" />
         <bind param="sliderVals" program="fp" />
         <bind param="time" program="fp" />
+        <bind param="useBop" program="fp" />
         <bind param="vtime" program="fp" />
         <bind param="backbuffer" program="fp" />
         <bind param="image" program="fp" />

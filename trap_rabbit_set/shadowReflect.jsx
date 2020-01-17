@@ -3,6 +3,7 @@
     <param name="resolution" type="vec2" default="640., 480." />
     <param name="sliderVals" type="float[]" default="0.0" />
     <param name="time" type="float" default="0.0" />
+	<param name="useBop" type="int" default="0" />
 	<param name="vtime" type="float" default="0.0" />
     <param name="backbuffer" type="int" default="0" />
 	<param name="image" type="int" default="1" />
@@ -14,6 +15,7 @@
         <bind param="resolution" program="fp" />
         <bind param="sliderVals" program="fp" />
         <bind param="time" program="fp" />
+		<bind param="useBop" program="fp" />
 		<bind param="vtime" program="fp" />
         <bind param="backbuffer" program="fp" />
         <bind param="image" program="fp" />
@@ -216,6 +218,7 @@
             
             uniform float sliderVals[30];
             uniform float time;
+			uniform int   useBop;
 			uniform float vtime;
 
             // quantize and input number [0, 1] to quantLevels levels
@@ -278,9 +281,10 @@
             //slider vals 8/9 control hi/lo intensities - 6/7 open to be mapped
             vec4 ex1(){
                 vec2 stN = uvN(); //function for getting the [0, 1] scaled corrdinate of each pixel
-                float t2 = time/2.; //time is the uniform for global time
+				float tswap = useBop == 0 ? time : sliderVals[0] * 300. + sliderVals[1] * 20.;
+                float t2 = tswap/2.; //time is the uniform for global time
                 
-                vec3 warpN = coordWarp(stN, time);
+                vec3 warpN = coordWarp(stN, tswap);
                 bool col = false;
                 float lowAudio = sinN(time*PI*4.)*0.3; //*sliderVals[7]; //make this bass?
                 float swing = lowAudio*0.;
@@ -304,7 +308,7 @@
                 vec2 fdbkN = rotate(stN, vec2(0.5), PI/8.*(1.-sliderVals[6]))+hashN.xy*0.1*pow(sliderVals[2], 2.);
                 vec4 bbWarp = texture(backbuffer, (mix(fdbkN, vec2(0.5), (sliderVals[7] - 0.5)*0.25)) * resolution);
                 vec2 trailPoint = vec2(0.5); //mix(vec2(0.5), coordWarp(vec2(0.5), time).xy, 2.5);
-                vec2 warpMix = mix(mix(stN, warpN.xy, 0.01), trailPoint, 0.01 * sin(time/3.));
+                vec2 warpMix = mix(mix(stN, warpN.xy, 0.01), trailPoint, 0.01 * sin(tswap/3.));
                 vec4 bb = avgColorBB(warpMix, 0.005, 0.01);
                 
                 bool condition = !col;
@@ -322,8 +326,9 @@
                 cc = vec3(sinN(feedback*(5.+sliderVals[3]*45.)));
 
 				float fb = feedback * sliderVals[3] * 10.;
-    			vec3 imgc = mix(black, texture(image, (warpMix+vec2(sin(fb), cos(fb))*0.0)*resolution).rgb, feedback);
-				imgc = 1.-cosN(imgc*(5.+20.*PI*pow(sliderVals[3], 3.))+vtime*30.);
+				vec2 circ = vec2(sin(time), cos(time))*0.01;
+    			vec3 imgc = mix(black, texture(image, (warpMix+vec2(sin(fb), cos(fb))*0.1+circ)*resolution).rgb, feedback);
+				imgc = 1.-cosN(imgc*(5.+20.*PI*pow(sliderVals[8], 3.))+vtime*0.);
     			imgc = imgc == black ? black : imgc * feedback;
                 
                 cc = mix(cc, bbWarp.rgb, 0.5);
