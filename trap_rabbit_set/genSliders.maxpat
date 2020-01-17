@@ -39,6 +39,30 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-64",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 833.0, 1486.0, 133.0, 22.0 ],
+					"text" : "prepend param postSel"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-63",
+					"maxclass" : "number",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "bang" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 833.0, 1459.0, 50.0, 22.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"format" : 6,
 					"id" : "obj-59",
 					"maxclass" : "flonum",
@@ -46,7 +70,7 @@
 					"numoutlets" : 2,
 					"outlettype" : [ "", "bang" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 849.0, 1388.0, 50.0, 22.0 ]
+					"patching_rect" : [ 848.0, 1391.0, 50.0, 22.0 ]
 				}
 
 			}
@@ -57,7 +81,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 848.0, 1419.0, 133.0, 22.0 ],
+					"patching_rect" : [ 848.0, 1418.0, 133.0, 22.0 ],
 					"text" : "prepend param decayS"
 				}
 
@@ -117,7 +141,7 @@
 					"numoutlets" : 2,
 					"outlettype" : [ "", "bang" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 849.0, 1329.0, 50.0, 22.0 ]
+					"patching_rect" : [ 848.0, 1322.0, 50.0, 22.0 ]
 				}
 
 			}
@@ -128,7 +152,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 848.0, 1360.0, 131.0, 22.0 ],
+					"patching_rect" : [ 848.0, 1350.0, 131.0, 22.0 ],
 					"text" : "prepend param imgMix"
 				}
 
@@ -4437,6 +4461,20 @@
 				"patchline" : 				{
 					"destination" : [ "obj-12", 0 ],
 					"source" : [ "obj-61", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-64", 0 ],
+					"source" : [ "obj-63", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-342", 0 ],
+					"source" : [ "obj-64", 0 ]
 				}
 
 			}

@@ -11,6 +11,7 @@
 	<param name="synth" type="int" default="1" />
 	<param name="image" type="int" default="2" />
 	<param name="mask" type="int" default="3" />
+	<param name="postSel" type="int" default="0" />
     <param name="modelViewProjectionMatrix" type="mat4" state="MODELVIEW_PROJECTION_MATRIX" />
     <param name="textureMatrix0" type="mat4" state="TEXTURE0_MATRIX" />
     <param name="position" type="vec3" state="POSITION" />
@@ -27,6 +28,7 @@
 		<bind param="synth" program="fp" />
         <bind param="image" program="fp" />
 		<bind param="mask" program="fp" />
+		<bind param="postSel" program="fp" />
         <bind param="modelViewProjectionMatrix" program="vp" />
         <bind param="textureMatrix0" program="vp" />
         <bind param="position" program="vp" />
@@ -231,6 +233,7 @@
 			uniform float imgMix;
 			uniform float decayS;
 			uniform int   useBop;
+			uniform int   postSel;
 			uniform float vtime;
 
             // quantize and input number [0, 1] to quantLevels levels
@@ -309,7 +312,9 @@
 					feedback = lastFeedback * decay;
 				}
 				
-				vec3 col = mix(syn.rgb, img.rgb, imgMix) * feedback;
+				vec3 col = syn.rgb;
+ 				if(postSel == 0) col = mix(syn.rgb, img.rgb, imgMix) * (1.-feedback);
+				if(postSel == 1) col = mix(syn.rgb, img.rgb, imgMix) * (feedback);
 				
                 return vec4(col, feedback);
             }
