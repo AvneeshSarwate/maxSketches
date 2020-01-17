@@ -3,6 +3,8 @@
     <param name="resolution" type="vec2" default="480., 480." />
     <param name="sliderVals" type="float[]" default="0.0" />
     <param name="time" type="float" default="0.0" />
+	<param name="imgMix" type="float" default="0.0" />
+	<param name="decayS" type="float" default="0.0" />
 	<param name="useBop" type="int" default="0" />
 	<param name="vtime" type="float" default="0.0" />
     <param name="backbuffer" type="int" default="0" />
@@ -17,6 +19,8 @@
         <bind param="resolution" program="fp" />
         <bind param="sliderVals" program="fp" />
         <bind param="time" program="fp" />
+		<bind param="imgMix" program="fp" />
+		<bind param="decayS" program="fp" />
 		<bind param="useBop" program="fp" />
 		<bind param="vtime" program="fp" />
         <bind param="backbuffer" program="fp" />
@@ -224,6 +228,8 @@
             
             uniform float sliderVals[30];
             uniform float time;
+			uniform float imgMix;
+			uniform float decayS;
 			uniform int   useBop;
 			uniform float vtime;
 
@@ -295,7 +301,7 @@
 				
 				float feedback;
 				float lastFeedback = bb.a;
-				float decay = 0.3;
+				float decay = decayS;
 				bool condition = msk.r == 1.;
 				if(condition){
 					feedback = 1.;
@@ -303,7 +309,9 @@
 					feedback = lastFeedback * decay;
 				}
 				
-                return vec4(feedback);
+				vec3 col = mix(syn.rgb, img.rgb, imgMix) * feedback;
+				
+                return vec4(col, feedback);
             }
 
             void main(void) {
