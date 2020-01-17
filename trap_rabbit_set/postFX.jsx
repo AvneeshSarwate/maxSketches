@@ -1,6 +1,6 @@
 <jittershader name="default">
     <description>Default Slab </description>
-    <param name="resolution" type="vec2" default="640., 480." />
+    <param name="resolution" type="vec2" default="480., 480." />
     <param name="sliderVals" type="float[]" default="0.0" />
     <param name="time" type="float" default="0.0" />
 	<param name="useBop" type="int" default="0" />
@@ -293,7 +293,17 @@
 				vec4 img = texture(image, stN*resolution);
 				vec4 msk = texture(mask, stN*resolution);
 				
-                return img;
+				float feedback;
+				float lastFeedback = bb.a;
+				float decay = 0.3;
+				bool condition = msk.r == 1.;
+				if(condition){
+					feedback = 1.;
+				} else {
+					feedback = lastFeedback * decay;
+				}
+				
+                return vec4(feedback);
             }
 
             void main(void) {

@@ -1,6 +1,6 @@
 <jittershader name="default">
     <description>Default Slab </description>
-    <param name="resolution" type="vec2" default="640., 480." />
+    <param name="resolution" type="vec2" default="480., 480." />
     <param name="sliderVals" type="float[]" default="0.0" />
     <param name="time" type="float" default="0.0" />
     <param name="useBop" type="int" default="0" />
